@@ -169,12 +169,9 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: riscof-test-report-rv${{ matrix.xlen }}
-          path: $GITHUB_WORKSPACE/riscof-plugins/rv${{ matrix.xlen }}/riscof_work/
-          if-no-files-found: warn
-          retention-days: 3
+          path: "$GITHUB_WORKSPACE/riscof-plugins/rv${{ matrix.xlen }}/riscof_work/"
           compression-level: 6
           overwrite: true
-          include-hidden-files: false
 
       - name: Fail if riscof run failed
         if: env.riscof_exit_code != '0'
