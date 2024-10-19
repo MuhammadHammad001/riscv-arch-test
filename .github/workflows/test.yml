@@ -142,9 +142,9 @@ jobs:
       - name: Check size of riscof_work folder
         id: check_size
         run: |
-          if [ -d "$GITHUB_WORKSPACE/rv${{ matrix.xlen }}/riscof_work" ]; then
+          if [ -d "$GITHUB_WORKSPACE/riscof-plugins/rv${{ matrix.xlen }}/riscof_work" ]; then
             echo "riscof_work folder exists."
-            folder_size=$(du -sm $GITHUB_WORKSPACE/rv${{ matrix.xlen }}/riscof_work | cut -f1)
+            folder_size=$(du -sm $GITHUB_WORKSPACE/riscof-plugins/rv${{ matrix.xlen }}/riscof_work | cut -f1)
             echo "Folder size: ${folder_size} MB"
             if [ "$folder_size" -gt 1000 ]; then
               echo "Size exceeds 1 GB. Skipping upload."
@@ -165,7 +165,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: riscof-test-report-rv${{ matrix.xlen }}
-          path: $GITHUB_WORKSPACE/rv${{ matrix.xlen }}/riscof_work/
+          path: $GITHUB_WORKSPACE/riscof-plugins/rv${{ matrix.xlen }}/riscof_work/
           retention-days: 3
           compression-level: 6
           overwrite: true
