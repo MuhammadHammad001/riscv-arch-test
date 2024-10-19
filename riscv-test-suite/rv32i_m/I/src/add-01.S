@@ -15,15 +15,6 @@
 //
 // This assembly file tests the add instruction of the RISC-V I extension for the add covergroup.
 // 
-#include "model_test.h"
-#include "arch_test.h"
-RVTEST_ISA("RV32I")
-
-.section .text.init
-.globl rvtest_entry_point
-rvtest_entry_point:
-RVMODEL_BOOT
-RVTEST_CODE_BEGIN
 
 #ifdef TEST_CASE_1
 
