@@ -29,6 +29,8 @@ jobs:
     runs-on: ubuntu-22.04
     # Set a 60-minute time limit for this job
     timeout-minutes: 60
+    # Let the other jobs complete even in case of a failure but show a red flag
+    continue-on-error: true
     strategy:
       fail-fast: false
       matrix:
@@ -133,15 +135,9 @@ jobs:
               echo $GITHUB_WORKSPACE/sail >> $GITHUB_PATH
       
       - name: Config and run riscof for RV${{ matrix.xlen }}
-        continue-on-error: true
         run: |
           cd riscof-plugins/rv${{ matrix.xlen }}
           riscof run --config config.ini --suite ../../riscv-test-suite/rv${{ matrix.xlen }}i_m/ --env ../../riscv-test-suite/env
-        
-      - name: Capture riscof run status
-        if: always()
-        run: |
-          echo "riscof_exit_code=$?" >> $GITHUB_ENV
             
       - name: Check size of riscof_work folder
         id: check_size
@@ -172,9 +168,3 @@ jobs:
           path: /home/runner/work/riscv-arch-test/riscv-arch-test/riscof-plugins/rv${{ matrix.xlen }}/riscof_work/
           compression-level: 6
           overwrite: true
-
-      - name: Fail if riscof run failed
-        if: env.riscof_exit_code == '0'
-        run: |
-          echo "Riscof run failed with exit code ${{ env.riscof_exit_code }}."
-          exit 1
