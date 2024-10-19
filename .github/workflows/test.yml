@@ -169,7 +169,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: riscof-test-report-rv${{ matrix.xlen }}
-          path: $GITHUB_WORKSPACE/riscof-plugins/rv${{ matrix.xlen }}/riscof_work/*
+          path: /home/runner/work/riscv-arch-test/riscv-arch-test/riscof-plugins/rv${{ matrix.xlen }}/riscof_work/
           compression-level: 6
           overwrite: true
 
