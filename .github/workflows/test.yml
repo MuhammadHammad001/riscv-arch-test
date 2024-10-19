@@ -29,8 +29,6 @@ jobs:
     runs-on: ubuntu-22.04
     # Set a 60-minute time limit for this job
     timeout-minutes: 60
-    # Let the other jobs complete even in case of a failure but show a red flag
-    continue-on-error: true
     strategy:
       fail-fast: false
       matrix:
@@ -140,6 +138,7 @@ jobs:
           riscof run --config config.ini --suite ../../riscv-test-suite/rv${{ matrix.xlen }}i_m/ --env ../../riscv-test-suite/env
             
       - name: Check size of riscof_work folder
+        if: always()
         id: check_size
         run: |
           if [ -d "$GITHUB_WORKSPACE/riscof-plugins/rv${{ matrix.xlen }}/riscof_work" ]; then
