@@ -137,6 +137,10 @@ jobs:
         run: |
           cd riscof-plugins/rv${{ matrix.xlen }}
           riscof run --config config.ini --suite ../../riscv-test-suite/rv${{ matrix.xlen }}i_m/ --env ../../riscv-test-suite/env
+        
+      - name: Capture riscof run status
+        if: always()
+        run: |
           echo "riscof_exit_code=$?" >> $GITHUB_ENV
             
       - name: Check size of riscof_work folder
@@ -170,7 +174,7 @@ jobs:
           overwrite: true
 
       - name: Fail if riscof run failed
-        if: env.riscof_exit_code != '0'
+        if: env.riscof_exit_code == '0'
         run: |
           echo "Riscof run failed with exit code ${{ env.riscof_exit_code }}."
           exit 1
