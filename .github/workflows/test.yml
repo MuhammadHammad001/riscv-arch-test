@@ -163,7 +163,7 @@ jobs:
           fi
 
       - name: List contents of riscof_work folder
-        run: ls -la $GITHUB_WORKSPACE/riscof-plugins/rv32/riscof_work/
+        run: ls -la $GITHUB_WORKSPACE/riscof-plugins/rv${{ matrix.xlen }}/riscof_work/
         
      # Upload the riscof_work for rv${{ matrix.xlen }} folder if size check passes
       - name: Upload the riscof_work for rv${{ matrix.xlen }} folder
