@@ -140,6 +140,7 @@ jobs:
 
         
       - name: Check size of riscof_work folder
+        if: always() 
         id: check_size
         run: |
           if [ -d "$GITHUB_WORKSPACE/riscof-plugins/rv${{ matrix.xlen }}/riscof_work" ]; then
@@ -160,12 +161,10 @@ jobs:
 
      # Upload the riscof_work for rv${{ matrix.xlen }} folder if size check passes
       - name: Upload the riscof_work for rv${{ matrix.xlen }} folder
-        # Proceed with upload only if the size is within limit  
-        if: ${{ env.upload == 'true' }}
+        if: always() && ${{ env.upload == 'true' }}
         uses: actions/upload-artifact@v4
         with:
           name: riscof-test-report-rv${{ matrix.xlen }}
-          path: $GITHUB_WORKSPACE/riscof-plugins/rv${{ matrix.xlen }}/riscof_work/
-          retention-days: 3
+          path: $GITHUB_WORKSPACE/riscof-plugins/rv${{ matrix.xlen }}/riscof_work
           compression-level: 6
           overwrite: true
