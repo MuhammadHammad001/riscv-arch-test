@@ -162,6 +162,9 @@ jobs:
             echo "upload=false" >> $GITHUB_ENV  # Skip upload if folder doesn't exist
           fi
 
+      - name: List contents of riscof_work folder
+        run: ls -la $GITHUB_WORKSPACE/riscof-plugins/rv32/riscof_work/
+        
      # Upload the riscof_work for rv${{ matrix.xlen }} folder if size check passes
       - name: Upload the riscof_work for rv${{ matrix.xlen }} folder
         # Proceed with upload only if the size is within limit  
@@ -169,7 +172,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: riscof-test-report-rv${{ matrix.xlen }}
-          path: /home/runner/work/riscv-arch-test/riscv-arch-test/rv${{ matrix.xlen }}/riscof_work/
+          path: $GITHUB_WORKSPACE/riscof-plugins/rv${{ matrix.xlen }}/riscof_work/
           compression-level: 6
           overwrite: true
 
