@@ -34,12 +34,12 @@ RVTEST_SIGBASE( x3,signature_x3_1)
 inst_0:
 // rs2 == rd != rs1, rs1==x4, rs2==x24, rd==x24, rs1_val > 0 and rs2_val > 0, rs2_val == 1, rs1_val == (2**(xlen-1)-1), rs1_val != rs2_val, rs1_val == 2147483647
 // opcode: add ; op1:x4; op2:x24; dest:x24; op1val:0x7fffffff;  op2val:0x1
-TEST_RR_OP(add, x24, x4, x24, 0x80000000, 0x7fffffff, 0x1, x3, 0, x18)
+TES_RR_OP(add, x24, x4, x24, 0x80000000, 0x7fffffff, 0x1, x3, 0, x18)
 
 inst_1:
 // rs1 == rs2 != rd, rs1==x10, rs2==x10, rd==x28, rs1_val > 0 and rs2_val < 0, rs2_val == -257, rs1_val == 131072
 // opcode: add ; op1:x10; op2:x10; dest:x28; op1val:0x20000;  op2val:0x20000
-TEST_RR_OP(add, x28, x10, x10, 0x40000, 0x20000, 0x20000, x3, 4, x18)
+TES_RR_OP(add, x28, x10, x10, 0x40000, 0x20000, 0x20000, x3, 4, x18)
 
 inst_2:
 // rs1 == rs2 == rd, rs1==x21, rs2==x21, rd==x21, rs1_val < 0 and rs2_val < 0, rs1_val == -16777217
