@@ -137,10 +137,13 @@ jobs:
         run: |
           cd riscof-plugins/rv${{ matrix.xlen }}
           riscof run --config config.ini --suite ../../riscv-test-suite/rv${{ matrix.xlen }}i_m/ --env ../../riscv-test-suite/env
-
         
+      - name: Capture riscof run status
+        if: always()
+        run: |
+          echo "riscof_exit_code=$?" >> $GITHUB_ENV
+            
       - name: Check size of riscof_work folder
-        if: always() 
         id: check_size
         run: |
           if [ -d "$GITHUB_WORKSPACE/riscof-plugins/rv${{ matrix.xlen }}/riscof_work" ]; then
@@ -161,10 +164,17 @@ jobs:
 
      # Upload the riscof_work for rv${{ matrix.xlen }} folder if size check passes
       - name: Upload the riscof_work for rv${{ matrix.xlen }} folder
-        if: always() && ${{ env.upload == 'true' }}
+        # Proceed with upload only if the size is within limit  
+        if: env.upload == 'true'
         uses: actions/upload-artifact@v4
         with:
           name: riscof-test-report-rv${{ matrix.xlen }}
-          path: $GITHUB_WORKSPACE/riscof-plugins/rv${{ matrix.xlen }}/riscof_work
+          path: $GITHUB_WORKSPACE/riscof-plugins/rv${{ matrix.xlen }}/riscof_work/
           compression-level: 6
           overwrite: true
+
+      - name: Fail if riscof run failed
+        if: env.riscof_exit_code != '0'
+        run: |
+          echo "Riscof run failed with exit code ${{ env.riscof_exit_code }}."
+          exit 1
