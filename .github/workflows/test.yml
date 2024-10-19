@@ -161,9 +161,6 @@ jobs:
             echo "riscof_work folder does not exist. Skipping size check."
             echo "upload=false" >> $GITHUB_ENV  # Skip upload if folder doesn't exist
           fi
-
-      - name: List contents of riscof_work folder
-        run: ls -la $GITHUB_WORKSPACE/riscof-plugins/rv${{ matrix.xlen }}/riscof_work/
         
      # Upload the riscof_work for rv${{ matrix.xlen }} folder if size check passes
       - name: Upload the riscof_work for rv${{ matrix.xlen }} folder
@@ -173,8 +170,11 @@ jobs:
         with:
           name: riscof-test-report-rv${{ matrix.xlen }}
           path: $GITHUB_WORKSPACE/riscof-plugins/rv${{ matrix.xlen }}/riscof_work/
+          if-no-files-found: warn
+          retention-days: 3
           compression-level: 6
           overwrite: true
+          include-hidden-files: false
 
       - name: Fail if riscof run failed
         if: env.riscof_exit_code != '0'
