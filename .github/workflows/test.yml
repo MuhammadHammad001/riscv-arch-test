@@ -174,7 +174,7 @@ jobs:
             [ -d riscof_work ] && echo "riscof_work for rv${{ matrix.xlen }}i_m/$EXT exists" || echo "riscof_work for ${{ matrix.xlen }}i_m/$EXT missing"
 
             # Copy the entire folder to complete_coverage with a unique name based on the extension
-            cp -r riscof_work ../complete_coverage/riscof_work_${EXT}
+            cp -r riscof_work complete_coverage/riscof_work_${EXT}
 
             if [ "$first_file" -eq 1 ]; then
               cat riscof_work/coverage.md > ../$combined_file
