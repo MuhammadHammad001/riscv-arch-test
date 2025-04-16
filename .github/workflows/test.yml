@@ -149,6 +149,44 @@ jobs:
           cd riscof-plugins/rv${{ matrix.xlen }}
           riscof run --config config.ini --suite ../../riscv-test-suite/rv${{ matrix.xlen }}i_m --env ../../riscv-test-suite/env
 
+      - name: Config and check coverage riscof for RV${{ matrix.xlen }}
+        run: |
+          cd riscof-plugins/rv${{ matrix.xlen }}
+          mkdir -p complete_coverage
+          combined_file="combined_coverage.md"
+          first_file=1
+
+          declare -A EXT_CGF_MAP=(
+            ["I"]="i/rv${{ matrix.xlen }}i.cgf"
+            ["B"]="b/rv${{ matrix.xlen }}i_b.cgf"
+            ["M"]="m/rv${{ matrix.xlen }}im.cgf"
+          )
+
+          for EXT in "${!EXT_CGF_MAP[@]}"; do
+            echo "Running coverage for extension: $EXT"
+            riscof coverage --config=config.ini \
+              --cgf-file ../../coverage/dataset.cgf \
+              --cgf-file ../../coverage/${EXT_CGF_MAP[$EXT]} \
+              --suite ../../riscv-test-suite/rv${{ matrix.xlen }}i_m/$EXT \
+              --env ../../riscv-test-suite/env \
+              -h ../../coverage/header_file.yaml
+
+            [ -d riscof_work ] && echo "riscof_work for rv${{ matrix.xlen }}i_m/$EXT exists" || echo "riscof_work for ${{ matrix.xlen }}i_m/$EXT missing"
+
+            # Copy the entire folder to complete_coverage with a unique name based on the extension
+            cp -r riscof_work ../complete_coverage/riscof_work_${EXT}
+
+            if [ "$first_file" -eq 1 ]; then
+              cat riscof_work/coverage.md > ../$combined_file
+              first_file=0
+            else
+              tail -n +2 riscof_work/coverage.md >> ../$combined_file
+            fi
+          done
+
+          echo -e "\n\nCombined Coverage Table:\n"
+          tail -n +2 $combined_file | column -t -s '|' | sed 's/^/|/' | sed 's/$/|/'
+  
       #Check the existance of the riscof work folder, and add the PATH to environment variable
       - name: Check size and determine upload path
         if: always()
