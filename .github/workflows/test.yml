@@ -158,7 +158,6 @@ jobs:
 
           declare -A EXT_CGF_MAP=(
             ["I"]="i/rv${{ matrix.xlen }}i.cgf"
-            ["B"]="b/rv${{ matrix.xlen }}i_b.cgf"
             ["M"]="m/rv${{ matrix.xlen }}im.cgf"
           )
 
