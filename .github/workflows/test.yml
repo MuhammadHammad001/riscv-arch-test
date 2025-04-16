@@ -147,7 +147,7 @@ jobs:
       - name: Config and run riscof for RV${{ matrix.xlen }}
         run: |
           cd riscof-plugins/rv${{ matrix.xlen }}
-          riscof run --config config.ini --suite ../../riscv-test-suite/rv${{ matrix.xlen }}i_m --env ../../riscv-test-suite/env
+          riscof run --config config.ini --suite ../../riscv-test-suite/rv${{ matrix.xlen }}i_m --env ../../riscv-test-suite/env --no-browser
 
       - name: Config and check coverage riscof for RV${{ matrix.xlen }}
         run: |
@@ -169,7 +169,7 @@ jobs:
               --cgf-file ../../coverage/${EXT_CGF_MAP[$EXT]} \
               --suite ../../riscv-test-suite/rv${{ matrix.xlen }}i_m/$EXT \
               --env ../../riscv-test-suite/env \
-              -h ../../coverage/header_file.yaml
+              -h ../../coverage/header_file.yaml --no-browser
 
             [ -d riscof_work ] && echo "riscof_work for rv${{ matrix.xlen }}i_m/$EXT exists" || echo "riscof_work for ${{ matrix.xlen }}i_m/$EXT missing"
 
