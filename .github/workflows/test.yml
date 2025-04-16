@@ -179,7 +179,7 @@ jobs:
               cat riscof_work/coverage.md > $combined_file
               first_file=0
             else
-              tail -n +2 riscof_work/coverage.md >> $combined_file
+              tail -n +3 riscof_work/coverage.md >> $combined_file
             fi
           done
 
@@ -229,7 +229,7 @@ jobs:
         if: always()
         id: check_size_coverage
         run: |
-          coverage_folder="${work_folder}/complete_coverage"
+          coverage_folder="${{ github.workspace }}/riscof-plugins/rv${{ matrix.xlen }}/complete_coverage"
 
           if [ -d "$coverage_folder" ]; then
           coverage_size=$(du -sm "$coverage_folder" | cut -f1)
