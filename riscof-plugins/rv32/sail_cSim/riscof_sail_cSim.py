@@ -123,13 +123,13 @@ class sail_cSim(pluginTemplate):
                 pmp_flags = ""
 
             try:
-                sail_config = subprocess.run(["riscv_sim_rv64d", "--print-default-config"], check= True, text=True, capture_output=True)
+                sail_config = subprocess.run(["riscv_sim_rv32d", "--print-default-config"], check= True, text=True, capture_output=True)
                 sail_config = json.loads(sail_config.stdout)
             except subprocess.CalledProcessError as e:
-                print("riscv_sim_rv64d --print-default-config failed:", e.stderr)
+                print("riscv_sim_rv32d --print-default-config failed:", e.stderr)
                 exit(1)
             except json.JSONDecodeError:
-                print("riscv_sim_rv64d --print-default-config output is not valid JSON.")
+                print("riscv_sim_rv32d --print-default-config output is not valid JSON.")
                 exit(1)
 
             # Update the values for pmp
